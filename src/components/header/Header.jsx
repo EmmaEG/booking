@@ -1,6 +1,8 @@
 import {
   faBed,
+  faCalendarDays,
   faCar,
+  faPerson,
   faPlane,
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +14,7 @@ const Container = styled.div`
   color: #ffffff;
   display: flex;
   justify-content: center;
+  position: relative; // to have search header froont header
 `;
 
 const HeaderWrapper = styled.div`
@@ -54,7 +57,36 @@ const HeaderButton = styled.button`
   cursor: pointer;
 `;
 
-const HeaderSearch = styled.div``;
+const HeaderSearch = styled.div`
+  height: 30px;
+  background-color: #ffffff;
+  border: 3px solid #febb02;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 0px;
+  border-radius: 5px;
+  position: absolute; // to search header on header
+  bottom: -25px;
+  width: 100%;
+  max-width: 1024px;
+`;
+
+const HeaderSearchItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const HeaderInput = styled.input`
+  border: none;
+  outline: none;
+`;
+
+const HeaderSearhText = styled.span`
+  color: lightgray;
+  cursor: pointer;
+`;
 
 const Header = () => {
   return (
@@ -81,10 +113,29 @@ const Header = () => {
         <HeaderTitle>A lifetime of discounts? It's Genius.</HeaderTitle>
         <HeaderDescription>
           Travel and win: get an immediate discount of 10% or more with your
-          free Booking.com account
+          free EGBooking.com account
         </HeaderDescription>
         <HeaderButton>Sign in / Register</HeaderButton>
-        <HeaderSearch></HeaderSearch>
+        <HeaderSearch>
+          <HeaderSearchItem>
+            <FontAwesomeIcon style={{ color: "lightgray" }} icon={faBed} />
+            <HeaderInput type="text" placeholder="Where are you going?" />
+          </HeaderSearchItem>
+          <HeaderSearchItem>
+            <FontAwesomeIcon
+              style={{ color: "lightgray" }}
+              icon={faCalendarDays}
+            />
+            <HeaderSearhText>date to date</HeaderSearhText>
+          </HeaderSearchItem>
+          <HeaderSearchItem>
+            <FontAwesomeIcon style={{ color: "lightgray" }} icon={faPerson} />
+            <HeaderSearhText>2 adults 2 children 1 room</HeaderSearhText>
+          </HeaderSearchItem>
+          <HeaderSearchItem>
+            <HeaderButton>Search</HeaderButton>
+          </HeaderSearchItem>
+        </HeaderSearch>
       </HeaderWrapper>
     </Container>
   );
