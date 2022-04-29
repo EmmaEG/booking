@@ -7,6 +7,13 @@ import {
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
+import { DateRange } from "react-date-range";
+
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { format } from "date-fns"; // Date-fns is a library that provides comprehensive functions for date formatting and manipulation
+
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -88,7 +95,70 @@ const HeaderSearhText = styled.span`
   cursor: pointer;
 `;
 
+const HeaderDate = styled.div`
+  position: absolute;
+  top: 53px;
+`;
+
+const HeaderOptions = styled.div`
+  position: absolute;
+  top: 50px;
+  background-color: #ffffff;
+  color: gray;
+  border-radius: 5px;
+  box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
+  -webkit-box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
+  -moz-box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
+`;
+
+const OptionsItem = styled.div`
+  width: 230px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+`;
+
+const OptionText = styled.span``;
+
+const OptionCounterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #000000;
+`;
+
+const CounterButton = styled.button`
+  width: 30px;
+  height: 30px;
+  border: 1px solid #0071c2;
+  color: #0071c2;
+  background-color: #ffffff;
+  cursor: pointer;
+  border-radius: 5px;
+`;
+
+const OptionCounterNumber = styled.span``;
+
 const Header = () => {
+  const [openDate, setOpenDate] = useState(false);
+
+  const [openOtions, setOpenOptions] = useState(false);
+
+  const [options, setOptions] = useState({
+    adult: 1,
+    children: 0,
+    room: 1,
+  });
+
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+
   return (
     <Container>
       <HeaderWrapper>
@@ -126,11 +196,52 @@ const Header = () => {
               style={{ color: "lightgray" }}
               icon={faCalendarDays}
             />
-            <HeaderSearhText>date to date</HeaderSearhText>
+            <HeaderSearhText onClick={() => setOpenDate(!openDate)}>
+              {`${format(date[0].startDate, "dd/MM/yyyy")} to ${format(
+                date[0].endDate,
+                "dd/MM/yyyy"
+              )}`}
+            </HeaderSearhText>
+            {openDate && (
+              <HeaderDate>
+                <DateRange
+                  editableDateInputs={true}
+                  onChange={(item) => setDate([item.selection])}
+                  moveRangeOnFirstSelection={false}
+                  ranges={date}
+                />
+              </HeaderDate>
+            )}
           </HeaderSearchItem>
           <HeaderSearchItem>
             <FontAwesomeIcon style={{ color: "lightgray" }} icon={faPerson} />
-            <HeaderSearhText>2 adults 2 children 1 room</HeaderSearhText>
+            <HeaderSearhText>{`${options.adult} Adult . ${options.children} Children . ${options.room} Room`}</HeaderSearhText>
+            <HeaderOptions>
+              <OptionsItem>
+                <OptionText>Adult</OptionText>
+                <OptionCounterWrapper>
+                  <CounterButton>-</CounterButton>
+                  <OptionCounterNumber>1</OptionCounterNumber>
+                  <CounterButton>+</CounterButton>
+                </OptionCounterWrapper>
+              </OptionsItem>
+              <OptionsItem>
+                <OptionText>Children</OptionText>
+                <OptionCounterWrapper>
+                  <CounterButton>-</CounterButton>
+                  <OptionCounterNumber>0</OptionCounterNumber>
+                  <CounterButton>+</CounterButton>
+                </OptionCounterWrapper>
+              </OptionsItem>
+              <OptionsItem>
+                <OptionText>Room</OptionText>
+                <OptionCounterWrapper>
+                  <CounterButton>-</CounterButton>
+                  <OptionCounterNumber>1</OptionCounterNumber>
+                  <CounterButton>+</CounterButton>
+                </OptionCounterWrapper>
+              </OptionsItem>
+            </HeaderOptions>
           </HeaderSearchItem>
           <HeaderSearchItem>
             <HeaderButton>Search</HeaderButton>
