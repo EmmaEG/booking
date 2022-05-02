@@ -27,7 +27,8 @@ const Container = styled.div`
 const HeaderWrapper = styled.div`
   width: 100%;
   max-width: 1024px; // to small screen
-  margin: 20px 0px 100px 0px; // top-left-bottom-right
+  margin: ${(props) =>
+    props.type === "hotelList" ? "20px 0px 0px 0px" : "20px 0px 100px 0px"};
 `;
 
 const HeaderList = styled.div`
@@ -140,7 +141,7 @@ const CounterButton = styled.button`
 
 const OptionCounterNumber = styled.span``;
 
-const Header = () => {
+const Header = ({ type }) => {
   const [openDate, setOpenDate] = useState(false);
 
   const [openOtions, setOpenOptions] = useState(false);
@@ -158,6 +159,16 @@ const Header = () => {
       key: "selection",
     },
   ]);
+
+  const handleOption = (name, operation) => {
+    setOptions((prev) => {
+      // take the previous state
+      return {
+        ...prev,
+        [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
+      };
+    });
+  };
 
   return (
     <Container>
@@ -180,73 +191,118 @@ const Header = () => {
             <HeaderSpan>Airport taxis</HeaderSpan>
           </HeaderListItem>
         </HeaderList>
-        <HeaderTitle>A lifetime of discounts? It's Genius.</HeaderTitle>
-        <HeaderDescription>
-          Travel and win: get an immediate discount of 10% or more with your
-          free EGBooking.com account
-        </HeaderDescription>
-        <HeaderButton>Sign in / Register</HeaderButton>
-        <HeaderSearch>
-          <HeaderSearchItem>
-            <FontAwesomeIcon style={{ color: "lightgray" }} icon={faBed} />
-            <HeaderInput type="text" placeholder="Where are you going?" />
-          </HeaderSearchItem>
-          <HeaderSearchItem>
-            <FontAwesomeIcon
-              style={{ color: "lightgray" }}
-              icon={faCalendarDays}
-            />
-            <HeaderSearhText onClick={() => setOpenDate(!openDate)}>
-              {`${format(date[0].startDate, "dd/MM/yyyy")} to ${format(
-                date[0].endDate,
-                "dd/MM/yyyy"
-              )}`}
-            </HeaderSearhText>
-            {openDate && (
-              <HeaderDate>
-                <DateRange
-                  editableDateInputs={true}
-                  onChange={(item) => setDate([item.selection])}
-                  moveRangeOnFirstSelection={false}
-                  ranges={date}
+        {type !== "hotelList" && (
+          <>
+            <HeaderTitle>A lifetime of discounts? It's Genius.</HeaderTitle>
+            <HeaderDescription>
+              Travel and win: get an immediate discount of 10% or more with your
+              free EGBooking.com account
+            </HeaderDescription>
+            <HeaderButton>Sign in / Register</HeaderButton>
+            <HeaderSearch>
+              <HeaderSearchItem>
+                <FontAwesomeIcon style={{ color: "lightgray" }} icon={faBed} />
+                <HeaderInput type="text" placeholder="Where are you going?" />
+              </HeaderSearchItem>
+              <HeaderSearchItem>
+                <FontAwesomeIcon
+                  style={{ color: "lightgray" }}
+                  icon={faCalendarDays}
                 />
-              </HeaderDate>
-            )}
-          </HeaderSearchItem>
-          <HeaderSearchItem>
-            <FontAwesomeIcon style={{ color: "lightgray" }} icon={faPerson} />
-            <HeaderSearhText>{`${options.adult} Adult . ${options.children} Children . ${options.room} Room`}</HeaderSearhText>
-            <HeaderOptions>
-              <OptionsItem>
-                <OptionText>Adult</OptionText>
-                <OptionCounterWrapper>
-                  <CounterButton>-</CounterButton>
-                  <OptionCounterNumber>1</OptionCounterNumber>
-                  <CounterButton>+</CounterButton>
-                </OptionCounterWrapper>
-              </OptionsItem>
-              <OptionsItem>
-                <OptionText>Children</OptionText>
-                <OptionCounterWrapper>
-                  <CounterButton>-</CounterButton>
-                  <OptionCounterNumber>0</OptionCounterNumber>
-                  <CounterButton>+</CounterButton>
-                </OptionCounterWrapper>
-              </OptionsItem>
-              <OptionsItem>
-                <OptionText>Room</OptionText>
-                <OptionCounterWrapper>
-                  <CounterButton>-</CounterButton>
-                  <OptionCounterNumber>1</OptionCounterNumber>
-                  <CounterButton>+</CounterButton>
-                </OptionCounterWrapper>
-              </OptionsItem>
-            </HeaderOptions>
-          </HeaderSearchItem>
-          <HeaderSearchItem>
-            <HeaderButton>Search</HeaderButton>
-          </HeaderSearchItem>
-        </HeaderSearch>
+                <HeaderSearhText onClick={() => setOpenDate(!openDate)}>
+                  {`${format(date[0].startDate, "dd/MM/yyyy")} to ${format(
+                    date[0].endDate,
+                    "dd/MM/yyyy"
+                  )}`}
+                </HeaderSearhText>
+                {openDate && (
+                  <HeaderDate>
+                    <DateRange
+                      editableDateInputs={true}
+                      onChange={(item) => setDate([item.selection])}
+                      moveRangeOnFirstSelection={false}
+                      ranges={date}
+                    />
+                  </HeaderDate>
+                )}
+              </HeaderSearchItem>
+              <HeaderSearchItem>
+                <FontAwesomeIcon
+                  style={{ color: "lightgray" }}
+                  icon={faPerson}
+                />
+                <HeaderSearhText
+                  onClick={() => setOpenOptions(!openOtions)}
+                >{`${options.adult} Adult . ${options.children} Children . ${options.room} Room`}</HeaderSearhText>
+
+                {openOtions && (
+                  <HeaderOptions>
+                    <OptionsItem>
+                      <OptionText>Adult</OptionText>
+                      <OptionCounterWrapper>
+                        <CounterButton
+                          onClick={() => handleOption("adult", "d")}
+                          disabled={options.adult <= 1}
+                        >
+                          -
+                        </CounterButton>
+                        <OptionCounterNumber>
+                          {options.adult}
+                        </OptionCounterNumber>
+                        <CounterButton
+                          onClick={() => handleOption("adult", "i")}
+                        >
+                          +
+                        </CounterButton>
+                      </OptionCounterWrapper>
+                    </OptionsItem>
+                    <OptionsItem>
+                      <OptionText>Children</OptionText>
+                      <OptionCounterWrapper>
+                        <CounterButton
+                          onClick={() => handleOption("children", "d")}
+                          disabled={options.children <= 0}
+                        >
+                          -
+                        </CounterButton>
+                        <OptionCounterNumber>
+                          {options.children}
+                        </OptionCounterNumber>
+                        <CounterButton
+                          onClick={() => handleOption("children", "i")}
+                        >
+                          +
+                        </CounterButton>
+                      </OptionCounterWrapper>
+                    </OptionsItem>
+                    <OptionsItem>
+                      <OptionText>Room</OptionText>
+                      <OptionCounterWrapper>
+                        <CounterButton
+                          onClick={() => handleOption("room", "d")}
+                          disabled={options.room <= 1}
+                        >
+                          -
+                        </CounterButton>
+                        <OptionCounterNumber>
+                          {options.room}
+                        </OptionCounterNumber>
+                        <CounterButton
+                          onClick={() => handleOption("room", "i")}
+                        >
+                          +
+                        </CounterButton>
+                      </OptionCounterWrapper>
+                    </OptionsItem>
+                  </HeaderOptions>
+                )}
+              </HeaderSearchItem>
+              <HeaderSearchItem>
+                <HeaderButton>Search</HeaderButton>
+              </HeaderSearchItem>
+            </HeaderSearch>
+          </>
+        )}
       </HeaderWrapper>
     </Container>
   );
