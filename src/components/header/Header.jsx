@@ -27,9 +27,10 @@ const Container = styled.div`
 const HeaderWrapper = styled.div`
   width: 100%;
   max-width: 1024px; // to small screen
-  margin: ${(props) =>
-    props.type === "hotelList" ? "20px 0px 0px 0px" : "20px 0px 100px 0px"};
-`;
+  `;
+
+/* margin: ${(props) =>
+  props.type === "hotelList" ? "20px 0px 0px 0px" : "20px 0px 100px 0px"}; */
 
 const HeaderList = styled.div`
   display: flex;
@@ -172,7 +173,7 @@ const Header = ({ type }) => {
 
   return (
     <Container>
-      <HeaderWrapper>
+      <HeaderWrapper style={type !== "hotelList" ? {margin: "20px 0px 100px 0px"} : {margin: "20px 0px 0px 0px"}}>
         <HeaderList>
           <HeaderListItem className="active">
             <FontAwesomeIcon icon={faBed} />
