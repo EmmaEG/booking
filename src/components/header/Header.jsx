@@ -100,6 +100,10 @@ const HeaderSearhText = styled.span`
 const HeaderDate = styled.div`
   position: absolute;
   top: 53px;
+  z-index: 2; //it's bigger than featured
+  box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
+  -webkit-box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
+  -moz-box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
 `;
 
 const HeaderOptions = styled.div`
@@ -111,6 +115,7 @@ const HeaderOptions = styled.div`
   box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
   -webkit-box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
   -moz-box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
+  z-index: 2; //it's bigger than featured
 `;
 
 const OptionsItem = styled.div`
