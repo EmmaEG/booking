@@ -10,8 +10,8 @@ const Container = styled.div`
 `;
 
 const PropListItem = styled.div`
-  flex: 1;
-  border-radius: 10px;
+  flex: 1; // to provide the same size
+  border-radius: 5px;
   overflow: hidden;
   cursor: pointer;
 `;
@@ -20,8 +20,8 @@ const ImageProp = styled.img`
   width: 100%;
   height: 150px;
   object-fit: cover;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 `;
 
 const PropTitles = styled.div``;

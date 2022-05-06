@@ -13,7 +13,7 @@ const Container = styled.div`
 const FeaturedItem = styled.div`
     position: relative;
     color: #ffffff;
-    border-radius: 10px;
+    border-radius: 5px;
     overflow: hidden;
     height: 250px;
 `;
