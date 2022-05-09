@@ -15,6 +15,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns"; // Date-fns is a library that provides comprehensive functions for date formatting and manipulation
 
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   background-color: #003580;
@@ -27,7 +28,7 @@ const Container = styled.div`
 const HeaderWrapper = styled.div`
   width: 100%;
   max-width: 1024px; // to small screen
-  `;
+`;
 
 /* margin: ${(props) =>
   props.type === "hotelList" ? "20px 0px 0px 0px" : "20px 0px 100px 0px"}; */
@@ -148,8 +149,8 @@ const CounterButton = styled.button`
 const OptionCounterNumber = styled.span``;
 
 const Header = ({ type }) => {
+  const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
-
   const [openOtions, setOpenOptions] = useState(false);
 
   const [options, setOptions] = useState({
@@ -166,6 +167,8 @@ const Header = ({ type }) => {
     },
   ]);
 
+  const navigate = useNavigate(); // to redirect
+
   const handleOption = (name, operation) => {
     setOptions((prev) => {
       // take the previous state
@@ -176,9 +179,21 @@ const Header = ({ type }) => {
     });
   };
 
+  const handleSearch = () => {
+    // with navigate we can push the user to the other route and also we can send our state
+    // in this case i send these values to HotelList component
+    navigate("/hotels", { state: { destination, date, options } });
+  };
+
   return (
     <Container>
-      <HeaderWrapper style={type !== "hotelList" ? {margin: "20px 0px 100px 0px"} : {margin: "20px 0px 0px 0px"}}>
+      <HeaderWrapper
+        style={
+          type !== "hotelList"
+            ? { margin: "20px 0px 100px 0px" }
+            : { margin: "20px 0px 0px 0px" }
+        }
+      >
         <HeaderList>
           <HeaderListItem className="active">
             <FontAwesomeIcon icon={faBed} />
@@ -208,7 +223,11 @@ const Header = ({ type }) => {
             <HeaderSearch>
               <HeaderSearchItem>
                 <FontAwesomeIcon style={{ color: "lightgray" }} icon={faBed} />
-                <HeaderInput type="text" placeholder="Where are you going?" />
+                <HeaderInput
+                  type="text"
+                  placeholder="Where are you going?"
+                  onChange={(e) => setDestination(e.target.value)}
+                />
               </HeaderSearchItem>
               <HeaderSearchItem>
                 <FontAwesomeIcon
@@ -304,7 +323,7 @@ const Header = ({ type }) => {
                 )}
               </HeaderSearchItem>
               <HeaderSearchItem>
-                <HeaderButton>Search</HeaderButton>
+                <HeaderButton onClick={handleSearch}>Search</HeaderButton>
               </HeaderSearchItem>
             </HeaderSearch>
           </>
