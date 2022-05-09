@@ -1,13 +1,16 @@
 import styled from "styled-components";
 import Featured from "../../components/featured/Featured";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
+import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
+import MailList from "../../components/mailList/MailList";
 import Navbar from "../../components/navbar/Navbar";
 import PropertyList from "../../components/propertyList/PropertyList";
 
 const Container = styled.div``;
 
 const HomeContainer = styled.div`
+width: 100%;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
@@ -28,9 +31,11 @@ const Home = () => {
       <HomeContainer>
         <Featured />
         <H1>Browse by property type</H1>
-        <PropertyList/>
+        <PropertyList />
         <H1>Home guests love</H1>
-        <FeaturedProperties/>
+        <FeaturedProperties />
+        <MailList />
+        <Footer />
       </HomeContainer>
     </Container>
   );

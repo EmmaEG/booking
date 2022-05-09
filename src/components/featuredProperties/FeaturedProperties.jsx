@@ -14,10 +14,14 @@ const Item = styled.div`
   gap: 10px;
   display: flex;
   flex-direction: column;
+  border-radius: 5px;
+  overflow: hidden;
 `;
 
 const Image = styled.img`
   width: 100%;
+  height: 150px;
+  border-radius: 5px;
   object-fit: cover;
 `;
 
