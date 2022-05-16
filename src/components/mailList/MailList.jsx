@@ -46,7 +46,7 @@ const MailList = () => {
       <SubTitle>Sign up and we'll send you the best deals to you</SubTitle>
       <MailCointainer>
         <InputText placeholder="Your Email" />
-        <Button>susbscribe</Button>
+        <Button>Subscribe</Button>
       </MailCointainer>
     </Conatiner>
   );

@@ -100,7 +100,7 @@ const HeaderSearhText = styled.span`
 
 const HeaderDate = styled.div`
   position: absolute;
-  top: 53px;
+  top: 50px;
   z-index: 2; //it's bigger than featured
   box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
   -webkit-box-shadow: 0px 7px 5px -2px rgba(0, 0, 0, 0.58);
@@ -247,6 +247,7 @@ const Header = ({ type }) => {
                       onChange={(item) => setDate([item.selection])}
                       moveRangeOnFirstSelection={false}
                       ranges={date}
+                      minDate={new Date()}
                     />
                   </HeaderDate>
                 )}

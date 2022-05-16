@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import styled from "styled-components";
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file+
+
 import { useLocation } from "react-router-dom";
 import { format } from "date-fns";
+import { DateRange } from "react-date-range";
 
 const Container = styled.div``;
 
@@ -54,15 +58,48 @@ const SearchInput = styled.input`
   height: 30px;
   border: none;
   padding: 5px;
+  font-size: 16px;
 `;
 
-const Date = styled.span`
-  height: 30px;
-  padding: 5px;
-  background-color: #ffffff;
+const Date = styled.div`
+  -webkit-box-shadow: 0px 7px 2px -5px rgb(0 0 0 / 58%);
+`;
+
+const LabelDate = styled.div`
   display: flex;
   align-items: center;
+  background-color: #ffffff;
+  height: 30px;
+  border: none;
+  padding: 5px;
+  font-size: 16px;
+  color: #808080;
   cursor: pointer;
+`;
+
+const ListOptionsWrapper = styled.div`
+  padding: 10px;
+`;
+
+const ListTitle = styled.h4`
+  color: #ffffff;
+`;
+
+const ListOptionItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #000000;
+  font-size: 12px;
+`;
+
+const ListOptionText = styled.span``;
+
+const Small = styled.small``;
+
+const ListOptionInput = styled.input`
+  width: 50px;
+  border: none;
 `;
 
 const List = () => {
@@ -70,8 +107,9 @@ const List = () => {
   const location = useLocation();
   // console.log(location);
   const [destination, setDestination] = useState(location.state.destination);
-  const [date, setDete] = useState(location.state.date);
+  const [date, setDate] = useState(location.state.date);
   const [options, setoptions] = useState(location.state.options);
+  const [openDate, setOpenDate] = useState(false);
 
   return (
     <Container>
@@ -87,12 +125,62 @@ const List = () => {
             </SearchItem>
             <SearchItem>
               <LabelDescription>Check-in Date</LabelDescription>
-              <Date>
+              <LabelDate onClick={() => setOpenDate(!openDate)}>
                 {`${format(date[0].startDate, "dd/MM/yyyy")} to ${format(
                   date[0].endDate,
                   "dd/MM/yyyy"
                 )}`}
-              </Date>
+              </LabelDate>
+              {openDate && (
+                <Date>
+                  <DateRange
+                    onChange={(item) => setDate([item.selection])}
+                    ranges={date}
+                  />
+                </Date>
+              )}
+            </SearchItem>
+
+            <SearchItem>
+              <ListTitle>Options</ListTitle>
+              <ListOptionsWrapper>
+                <ListOptionItem>
+                  <ListOptionText>
+                    Min Price <Small>per night</Small>
+                  </ListOptionText>
+                  <ListOptionInput type="number" />
+                </ListOptionItem>
+                <ListOptionItem>
+                  <ListOptionText>
+                    Max Price <Small>per night</Small>
+                  </ListOptionText>
+                  <ListOptionInput type="number" />
+                </ListOptionItem>
+                <ListOptionItem>
+                  <ListOptionText>Adult</ListOptionText>
+                  <ListOptionInput
+                    type="number"
+                    min={1}
+                    placeholder={options.adult}
+                  />
+                </ListOptionItem>
+                <ListOptionItem>
+                  <ListOptionText>Children</ListOptionText>
+                  <ListOptionInput
+                    type="number"
+                    min={0}
+                    placeholder={options.children}
+                  />
+                </ListOptionItem>
+                <ListOptionItem>
+                  <ListOptionText>Room</ListOptionText>
+                  <ListOptionInput
+                    type="number"
+                    min={1}
+                    placeholder={options.room}
+                  />
+                </ListOptionItem>
+              </ListOptionsWrapper>
             </SearchItem>
           </ListSearch>
           <ListResult></ListResult>
