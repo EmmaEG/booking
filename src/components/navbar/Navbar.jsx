@@ -19,6 +19,7 @@ const NavWrapper = styled.div`
 
 const NavSpan = styled.span`
   font-weight: 500;
+  font-size: 20px;
 `;
 
 const NavItems = styled.div``;
@@ -29,6 +30,7 @@ const NavButton = styled.button`
   padding: 5px 10px;
   cursor: pointer;
   color: #003580;
+  border-radius: 5px;
 `;
 
 const Navbar = () => {

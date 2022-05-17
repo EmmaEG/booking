@@ -65,6 +65,7 @@ const HeaderButton = styled.button`
   border: none;
   padding: 10px;
   cursor: pointer;
+  border-radius: 5px;
 `;
 
 const HeaderSearch = styled.div`

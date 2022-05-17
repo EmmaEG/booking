@@ -8,6 +8,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file+
 import { useLocation } from "react-router-dom";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
+import SearchItem from "../../components/searchItem/SearchItem";
 
 const Container = styled.div``;
 
@@ -31,6 +32,7 @@ const ListSearch = styled.div`
   border-radius: 5px;
   position: sticky; // to keep the component on top
   top: 10px;
+  height: max-content;
 `;
 
 const ListResult = styled.div`
@@ -43,7 +45,7 @@ const SearchTitle = styled.h1`
   margin-bottom: 10px;
 `;
 
-const SearchItem = styled.div`
+const SearchItemOptions = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -57,6 +59,8 @@ const LabelDescription = styled.label`
 const SearchInput = styled.input`
   height: 30px;
   border: none;
+  outline: none;
+  border-radius: 5px;
   padding: 5px;
   font-size: 16px;
 `;
@@ -66,6 +70,8 @@ const Date = styled.div`
 `;
 
 const LabelDate = styled.div`
+  border-radius: 5px;
+  outline: none;
   display: flex;
   align-items: center;
   background-color: #ffffff;
@@ -99,7 +105,21 @@ const Small = styled.small``;
 
 const ListOptionInput = styled.input`
   width: 50px;
+  outline: none;
+  border-radius: 5px;
   border: none;
+  padding: 2px;
+`;
+
+const Button = styled.button`
+  padding: 10px;
+  background-color: #0071c2;
+  color: #ffffff;
+  border: none;
+  width: 100%;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
 `;
 
 const List = () => {
@@ -119,11 +139,11 @@ const List = () => {
         <ListWrapper>
           <ListSearch>
             <SearchTitle>Seacrh</SearchTitle>
-            <SearchItem>
+            <SearchItemOptions>
               <LabelDescription>Destination</LabelDescription>
               <SearchInput type="text" placeholder={destination} />
-            </SearchItem>
-            <SearchItem>
+            </SearchItemOptions>
+            <SearchItemOptions>
               <LabelDescription>Check-in Date</LabelDescription>
               <LabelDate onClick={() => setOpenDate(!openDate)}>
                 {`${format(date[0].startDate, "dd/MM/yyyy")} to ${format(
@@ -139,9 +159,9 @@ const List = () => {
                   />
                 </Date>
               )}
-            </SearchItem>
+            </SearchItemOptions>
 
-            <SearchItem>
+            <SearchItemOptions>
               <ListTitle>Options</ListTitle>
               <ListOptionsWrapper>
                 <ListOptionItem>
@@ -181,9 +201,19 @@ const List = () => {
                   />
                 </ListOptionItem>
               </ListOptionsWrapper>
-            </SearchItem>
+            </SearchItemOptions>
+            <Button>Search</Button>
           </ListSearch>
-          <ListResult></ListResult>
+          <ListResult>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+            <SearchItem/>
+          </ListResult>
         </ListWrapper>
       </ListContainer>
     </Container>
