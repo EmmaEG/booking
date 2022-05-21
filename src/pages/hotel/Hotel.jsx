@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import MailList from "../../components/mailList/MailList";
 import Footer from "../../components/footer/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleLeft,
+  faCircleRight,
+  faCircleXmark,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Continer = styled.div``;
 
@@ -75,6 +80,7 @@ const ImageWrapper = styled.div`
 const Image = styled.img`
   width: 100%;
   object-fit: cover;
+  cursor: pointer;
 `;
 
 const HotelDetails = styled.div`
@@ -128,7 +134,36 @@ const DetailButton = styled.button`
   cursor: pointer;
 `;
 
+const Slider = styled.div`
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000a4;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+`;
+
+const SliderWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const SliderImage = styled.img`
+  width: 80%;
+  height: 90vh;
+  border-radius: 5px;
+`;
+
 const Hotel = () => {
+  const [slideNumber, setSlideNumber] = useState(0);
+  const [openSlideNumber, setOpenSlideNumber] = useState(false);
+
   const photos = [
     {
       src: "https://t-cf.bstatic.com/xdata/images/hotel/max1024x768/244328832.jpg?k=ff8efe676b9521ad6b95c894521e0583e6c71b2ffca4b34161099edef8ceb506&o=&hp=1",
@@ -150,8 +185,63 @@ const Hotel = () => {
     },
   ];
 
+  const handleOpen = (index) => {
+    setSlideNumber(index);
+    setOpenSlideNumber(true);
+  };
+
+  const handleMove = (direction) => {
+    let newSlideNumber;
+
+    if (direction === "l") {
+      newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
+    } else {
+      newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
+    }
+    setSlideNumber(newSlideNumber);
+  };
+
   return (
     <Continer>
+        {openSlideNumber && (
+          <Slider>
+            <SliderWrapper>
+            <FontAwesomeIcon
+              icon={faCircleXmark}
+              onClick={() => setOpenSlideNumber(false)}
+              style={{
+                cursor: "pointer",
+                position: "absolute",
+                top: "20px",
+                right: "30px",
+                fontSize: "30px",
+                color: "#ffffff",
+              }}
+            />
+            <FontAwesomeIcon
+              icon={faCircleLeft}
+              onClick={() => handleMove("l")}
+              style={{
+                cursor: "pointer",
+                margin: "20px",
+                fontSize: "30px",
+                color: "#ffffff",
+              }}
+            />
+              <SliderImage src={photos[slideNumber].src} alt="photo" />
+            <FontAwesomeIcon
+              icon={faCircleRight}
+              onClick={() => handleMove("r")}
+              style={{
+                cursor: "pointer",
+                margin: "20px",
+                fontSize: "30px",
+                color: "#ffffff",
+              }}
+              />
+              </SliderWrapper>
+          </Slider>
+        )}
       <Navbar />
       <Header type="hotelList" />
       <HotelContainer>
@@ -167,9 +257,13 @@ const Hotel = () => {
             Book a stay over $114 at this property and get a free airport taxi
           </HotelPriceHighLight>
           <HotelImages>
-            {photos.map((photo) => (
+            {photos.map((photo, index) => (
               <ImageWrapper>
-                <Image src={photo.src} alt="hotel photos" />
+                <Image
+                  onClick={() => handleOpen(index)}
+                  src={photo.src}
+                  alt="hotel photos"
+                />
               </ImageWrapper>
             ))}
           </HotelImages>
